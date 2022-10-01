@@ -1,69 +1,94 @@
-let name1 = {
-  fname: 'Himanshu',
-  lname: 'Gawari',
+let arr = [1, 2, 4, 8, 10];
+console.log(arr);
+
+console.log('------------------ map ---------------------------');
+
+// map method
+let tempMap = arr.map((value, index, array) => {
+  return value * 2;
+});
+console.log(tempMap);
+
+// polyfill for map
+Array.prototype.myMap = function (callback) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    result.push(callback(this[i], i, this));
+  }
+  return result;
 };
 
-function printFullName(hometown, country) {
-  console.log(`${this.fname} ${this.lname} from ${hometown} in ${country}`);
-}
+let tempMyMap = arr.myMap((value, index, array) => {
+  return value * 2;
+});
+console.log(tempMyMap);
 
-let name2 = {
-  fname: 'Atsuko',
-  lname: 'Maeda',
+console.log('------------------ reduce ---------------------------');
+
+// reduce method
+let tempReduce = arr.reduce(
+  (previousValue, currentValue, currentIndex, array) => {
+    return previousValue + currentValue;
+  },
+  5
+);
+console.log(tempReduce);
+
+// polyfill for reduce
+Array.prototype.myReduce = function (callback, initailValue) {
+  let result = initailValue;
+  for (let i = 0; i < this.length; i++) {
+    result = callback(result, this[i], i, this);
+  }
+  return result;
 };
 
-// function borrowing
-printFullName.bind(name1, 'Mumbai', 'India')();
-printFullName.bind(name1, 'Mumbai')('India');
-printFullName.bind(name1)('Mumbai', 'India');
+let tempMyReduce = arr.myReduce(
+  (previousValue, currentValue, currentIndex, array) => {
+    return previousValue + currentValue;
+  },
+  5
+);
+console.log(tempMyReduce);
 
-printFullName.call(name1, 'Mumbai', 'India');
+console.log('------------------ filter ---------------------------');
 
-printFullName.apply(name1, ['Mumbai', 'India']);
+// filter method
+let tempFilter = arr.filter((value, index, array) => {
+  return value > 5;
+});
+console.log(tempFilter);
 
-console.log('-----------------------------------------------');
-
-printFullName.bind(name2, 'Tokya', 'Japan')();
-printFullName.bind(name2, 'Tokya')('Japan');
-printFullName.bind(name2)('Tokya', 'Japan');
-
-printFullName.call(name2, 'Tokya', 'Japan');
-
-printFullName.apply(name2, ['Tokya', 'Japan']);
-
-console.log('-----------------------------------------------');
-
-// polyfill for bind
-Function.prototype.myBind = function (scope, ...args) {
-  // scope is object name1
-  // this is function printFillName
-  // console.log(scope, this);
-  scope._this = this;
-  return function (...args2) {
-    scope._this(...args, ...args2);
-  };
+// polyfill for filter
+Array.prototype.myFilter = function (callback) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) result.push(this[i]);
+  }
+  return result;
 };
 
-printFullName.myBind(name1, 'Mumbai', 'India')();
-printFullName.myBind(name1, 'Mumbai')('India');
-printFullName.myBind(name1)('Mumbai', 'India');
+let tempMyFilter = arr.myFilter((value, index, array) => {
+  return value > 5;
+});
+console.log(tempMyFilter);
 
-console.log('-----------------------------------------------');
+console.log('------------------ find ---------------------------');
 
-// polyfill for call
-Function.prototype.myCall = function (scope, ...args) {
-  scope._this = this;
-  scope._this(...args);
+// find method
+let tempFind = arr.find((value, index, array) => {
+  return value === 8;
+});
+console.log(tempFind);
+
+// polyfill for find
+Array.prototype.myFind = function (callback) {
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) return this[i];
+  }
 };
 
-printFullName.myCall(name1, 'Mumbai', 'India');
-
-console.log('-----------------------------------------------');
-
-// polyfill for apply
-Function.prototype.myApply = function (scope, args) {
-  scope._this = this;
-  scope._this(...args);
-};
-
-printFullName.myApply(name1, ['Mumbai', 'India']);
+let tempMyFind = arr.myFind((value, index, array) => {
+  return value === 8;
+});
+console.log(tempMyFind);
