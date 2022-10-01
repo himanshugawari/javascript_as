@@ -1,48 +1,23 @@
-// input
-let user = {
+console.log('-------local storage-----------');
+
+localStorage.setItem('hello', 'world2');
+
+console.log(localStorage);
+
+console.log(localStorage.getItem('hello'));
+
+console.log(localStorage.removeItem('hello'));
+
+const user = {
   name: 'Himanshu',
-  address: {
-    personal: {
-      city: 'Mumbai',
-      area: 'South Bombay',
-    },
-    office: {
-      city: 'Bangalore',
-      area: {
-        landmark: 'Btm Layout',
-      },
-    },
-  },
-  contact: '1234567890',
 };
 
-console.log(user);
+localStorage.setItem('user', JSON.stringify(user));
 
-// output
+console.log(JSON.parse(localStorage.getItem('user')));
 
-let obj = {
-  user_name: 'Himanshu',
-  user_address_personal_city: 'Mumbai',
-  user_address_personal_area: 'South Bombay',
-  user_address_office_city: 'Bangalore',
-  user_address_office_area_landmark: 'Btm Layout',
-  user_contact: '1234567890',
-};
+const arr = ['himanshu', 'atsuko'];
 
-console.log(obj);
+localStorage.setItem('arr', JSON.stringify(arr));
 
-// solution
-let finalObj = {};
-
-let solve = (obj, parent) => {
-  for (let key in obj) {
-    if (typeof obj[key] === 'object') {
-      solve(obj[key], parent + '_' + key);
-    } else {
-      finalObj[parent + '_' + key] = obj[key];
-    }
-  }
-};
-
-solve(user, 'user');
-console.log(finalObj);
+console.log(JSON.parse(localStorage.getItem('arr')));
