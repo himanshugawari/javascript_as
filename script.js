@@ -1,55 +1,36 @@
-let multiply = function (x, y) {
-  console.log(x * y);
-};
+console.log('--------debounce----------');
 
-console.log('-------currying by bind---------');
+let counter = 0;
+function getData() {
+  console.log('FETCHING DATA...', counter++);
+}
 
-let multiplyByTwo = multiply.bind(this, 2);
-multiplyByTwo(3);
-
-console.log('-------currying by function closure---------');
-
-let multiplyClosure = function (x) {
-  return function (y) {
-    console.log(x * y);
+const debounce = function (fn, d) {
+  let timer;
+  return function (...args) {
+    let scope = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(scope, args);
+    }, d);
   };
 };
 
-multiplyClosure(2)(4);
+const betterGetData = debounce(getData, 300);
 
-console.log('-------currying by function closure---------');
+console.log('--------throttle----------');
 
-const summed = (a) => (b) => (c) => a + b + c;
-
-console.log(summed(1)(2)(3));
-
-console.log('-------currying by function closure---------');
-
-const mul = (a) => (b) => b ? mul(a * b) : a;
-
-console.log(mul(1)(2)(3)(4)());
-
-console.log('-------currying by function closure---------');
-
-function curry(fn) {
-  return function curried(...args) {
-    if (args.length >= fn.length) {
-      return fn.apply(this, args);
-    } else {
-      return function (...args2) {
-        return curried.apply(this, [...args, ...args2]);
-      };
+const throttle = function (fn, d) {
+  let flag = true;
+  return function (...args) {
+    if (flag) {
+      fn.apply(this, args);
+      flag = false;
     }
+    setTimeout(() => {
+      flag = true;
+    }, d);
   };
-}
+};
 
-function sum(a, b, c) {
-  return a + b + c;
-}
-
-let curriedSum = curry(sum);
-
-console.log('(1)(2, 3)', curriedSum(1)(2, 3));
-console.log('(1, 2)(3)', curriedSum(1, 2)(3));
-console.log('(1, 2, 3)', curriedSum(1, 2, 3));
-console.log('(1)(2)(3)', curriedSum(1)(2)(3));
+const betterPerformance = throttle(getData, 1000);
