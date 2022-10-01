@@ -1,36 +1,27 @@
-console.log('--------debounce----------');
+// console.log('--------event bubbling/capturing----------');
+// bubbling from inside to outside
+// capturing from outside to inside
 
-let counter = 0;
-function getData() {
-  console.log('FETCHING DATA...', counter++);
-}
+// const grandparent = document.querySelector('#grandparent');
+// const parent = document.querySelector('#parent');
+// const child = document.querySelector('#child');
 
-const debounce = function (fn, d) {
-  let timer;
-  return function (...args) {
-    let scope = this;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(scope, args);
-    }, d);
-  };
-};
+// grandparent.addEventListener('click', () => {
+//   console.log('grandparent');
+// });
 
-const betterGetData = debounce(getData, 300);
+// parent.addEventListener('click', () => {
+//   console.log('parent');
+// });
 
-console.log('--------throttle----------');
+// child.addEventListener('click', (e) => {
+//   console.log('child');
+//   e.stopPropagation();
+// });
 
-const throttle = function (fn, d) {
-  let flag = true;
-  return function (...args) {
-    if (flag) {
-      fn.apply(this, args);
-      flag = false;
-    }
-    setTimeout(() => {
-      flag = true;
-    }, d);
-  };
-};
+console.log('--------event delegation----------');
+//  rather than attaching event handleer to each child attach event hadler to parent
 
-const betterPerformance = throttle(getData, 1000);
+document.querySelector('#category').addEventListener('click', (e) => {
+  console.log(e.target.id);
+});

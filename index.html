@@ -14,12 +14,22 @@
   <body>
     <main>
       <h1>Hello World</h1>
-      Debounce<input
-        type="text"
-        id="textInput"
-        onkeyup="betterGetData()"
-      /><br />
-      Throttle <button onclick="betterPerformance()">CLICK</button>
+      <!-- event bubbling/capturing -->
+      <!-- <div>
+        <div class="box" id="grandparent">
+          <div class="box" id="parent">
+            <div class="box" id="child"></div>
+          </div>
+        </div>
+      </div> -->
+      <!-- event delegation -->
+      <div>
+        <ul id="category">
+          <li id="laptops">laptops</li>
+          <li id="cameras">cameras</li>
+          <li id="mobiles">mobiles</li>
+        </ul>
+      </div>
     </main>
     <script src="script.js"></script>
   </body>
