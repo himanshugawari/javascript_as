@@ -1,29 +1,48 @@
-let arr = ['Himanshu', 'Atsuko'];
+// input
+let user = {
+  name: 'Himanshu',
+  address: {
+    personal: {
+      city: 'Mumbai',
+      area: 'South Bombay',
+    },
+    office: {
+      city: 'Bangalore',
+      area: {
+        landmark: 'Btm Layout',
+      },
+    },
+  },
+  contact: '1234567890',
+};
+
+console.log(user);
+
+// output
 
 let obj = {
-  name: 'Himanshu',
-  city: 'Mumbai',
-  getIntro: function () {
-    return `${this.name} from ${this.city}`;
-  },
+  user_name: 'Himanshu',
+  user_address_personal_city: 'Mumbai',
+  user_address_personal_area: 'South Bombay',
+  user_address_office_city: 'Bangalore',
+  user_address_office_area_landmark: 'Btm Layout',
+  user_contact: '1234567890',
 };
 
-let obj2 = {
-  name: 'Atsuko',
+console.log(obj);
+
+// solution
+let finalObj = {};
+
+let solve = (obj, parent) => {
+  for (let key in obj) {
+    if (typeof obj[key] === 'object') {
+      solve(obj[key], parent + '_' + key);
+    } else {
+      finalObj[parent + '_' + key] = obj[key];
+    }
+  }
 };
 
-obj2.__proto__ = obj;
-
-console.log(obj2.name);
-console.log(obj2.city);
-console.log(obj.getIntro());
-console.log(obj2.getIntro());
-
-//  prtotype chain
-// null > Object > Array
-
-// arr.__proto__ === Array.prototype
-// arr.__proto__.__proto__ === Object.prototype
-// arr.__proto__.__proto__.__proto__ === null
-
-// null > Object > Function
+solve(user, 'user');
+console.log(finalObj);
